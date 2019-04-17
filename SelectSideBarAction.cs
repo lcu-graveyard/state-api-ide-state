@@ -39,7 +39,7 @@ namespace LCU.API.IDEState
 			{
 				log.LogInformation("Select Side Bar Action function processed a request.");
 
-				var ideGraph = req.LoadGraph<IDEGraph>();
+				var ideGraph = req.LoadGraph<IDEGraph>(log);
 
 				state.SideBar.CurrentAction = state.SideBar.Actions.FirstOrDefault(a => a.Group == reqData.Group && a.Action == reqData.Action);
 
@@ -62,7 +62,7 @@ namespace LCU.API.IDEState
 
 					log.LogInformation($"Section Action loaded: {secAct.ToJSON()}");
 
-					var dafApp = await getLcuDafApp(req, details, lcu);
+					var dafApp = await getLcuDafApp(req, log, details, lcu);
 
 					log.LogInformation($"DAF App loaded: {dafApp.ToJSON()}");
 
@@ -102,9 +102,9 @@ namespace LCU.API.IDEState
 			});
 		}
 
-		private static async Task<DAFViewConfiguration> getLcuDafApp(HttpRequest req, LCUStateDetails details, LowCodeUnitConfig lcu)
+		private static async Task<DAFViewConfiguration> getLcuDafApp(HttpRequest req, ILogger log, LCUStateDetails details, LowCodeUnitConfig lcu)
 		{
-			var appGraph = req.LoadGraph<ApplicationGraph>();
+			var appGraph = req.LoadGraph<ApplicationGraph>(log);
 
 			var apps = await appGraph.ListApplications(details.EnterpriseAPIKey);
 

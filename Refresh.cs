@@ -20,7 +20,7 @@ namespace LCU.API.IDEState
 		{
 			return await req.WithState<dynamic, LCUIDEState>(log, async (details, reqData, state, stateMgr) =>
 			{
-				var ideGraph = req.LoadGraph<IDEGraph>();
+				var ideGraph = req.LoadGraph<IDEGraph>(log);
 
 				var activities = await ideGraph.ListActivities(details.EnterpriseAPIKey, "Default");
 

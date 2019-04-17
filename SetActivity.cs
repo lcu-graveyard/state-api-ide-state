@@ -30,7 +30,7 @@ namespace LCU.API.IDEState
 			{
 				log.LogInformation("Set Activity function processed a request.");
 
-				var ideGraph = req.LoadGraph<IDEGraph>();
+				var ideGraph = req.LoadGraph<IDEGraph>(log);
 
 				state.CurrentActivity = state.Activities.FirstOrDefault(a => a.Lookup == reqData.Activity);
 
