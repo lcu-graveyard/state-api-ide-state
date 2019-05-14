@@ -36,6 +36,8 @@ namespace LCU.API.IDEState
 
                 if (state.RootActivities.IsNullOrEmpty())
                 {
+                    state.RootActivities = new List<IDEActivity>();
+                    
                     state.RootActivities.Add(new IDEActivity()
                     {
 						Icon = "cloud",
