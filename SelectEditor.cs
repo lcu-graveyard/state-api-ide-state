@@ -8,7 +8,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 using System.Runtime.Serialization;
-using LCU.Graphs.Registry.Enterprises.IDE;
+using LCU.API.IDEState.Models;
 using System.Collections.Generic;
 using System.Linq;
 

@@ -1,4 +1,4 @@
-using LCU.Graphs.Registry.Enterprises.IDE;
+using LCU.API.IDEState.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Azure.WebJobs;

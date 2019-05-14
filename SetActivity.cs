@@ -1,3 +1,4 @@
+using LCU.API.IDEState.Models;
 using LCU.Graphs.Registry.Enterprises.IDE;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -26,7 +27,7 @@ namespace LCU.API.IDEState
 			[HttpTrigger(AuthorizationLevel.Function, "post", Route = null)] HttpRequest req,
 			ILogger log)
 		{
-			return await req.WithState<SetActivityRequest, LCUIDEState>(log, async (details, reqData, state, stateMgr) =>
+			return await req.WithState<SetActivityRequest, Models.LCUIDEState>(log, async (details, reqData, state, stateMgr) =>
 			{
 				log.LogInformation("Set Activity function processed a request.");
 

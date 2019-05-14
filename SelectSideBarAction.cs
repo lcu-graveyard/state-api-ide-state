@@ -1,6 +1,6 @@
 using LCU.Graphs;
 using LCU.Graphs.Registry.Enterprises;
-using LCU.Graphs.Registry.Enterprises.IDE;
+using LCU.API.IDEState.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Azure.WebJobs;
@@ -11,6 +11,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.Serialization;
 using System.Threading.Tasks;
+using LCU.Graphs.Registry.Enterprises.IDE;
 
 namespace LCU.API.IDEState
 {
@@ -35,7 +36,7 @@ namespace LCU.API.IDEState
 			[HttpTrigger(AuthorizationLevel.Function, "post", Route = null)] HttpRequest req,
 			ILogger log)
 		{
-			return await req.WithState<SelectSideBarActionRequest, LCUIDEState>(log, async (details, reqData, state, stateMgr) =>
+			return await req.WithState<SelectSideBarActionRequest, Models.LCUIDEState>(log, async (details, reqData, state, stateMgr) =>
 			{
 				log.LogInformation("Select Side Bar Action function processed a request.");
 
