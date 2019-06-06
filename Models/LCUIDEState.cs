@@ -26,6 +26,9 @@ namespace LCU.API.IDEState.Models
 		public virtual List<IDEEditor> Editors { get; set; }
 
 		[DataMember]
+		public virtual bool InfrastructureConfigured { get; set; }
+
+		[DataMember]
 		public virtual bool Loading { get; set; }
 
 		[DataMember]
