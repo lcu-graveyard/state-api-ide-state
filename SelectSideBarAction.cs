@@ -12,6 +12,7 @@ using System.Linq;
 using System.Runtime.Serialization;
 using System.Threading.Tasks;
 using LCU.Graphs.Registry.Enterprises.IDE;
+using LCU.Graphs.Registry.Enterprises.Apps;
 
 namespace LCU.API.IDEState
 {

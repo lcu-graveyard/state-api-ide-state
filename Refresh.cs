@@ -34,25 +34,24 @@ namespace LCU.API.IDEState
                     Title = activity.Title
                 }).ToList();
 
-                // if (state.RootActivities.IsNullOrEmpty())
-                {
-                    state.RootActivities = new List<IDEActivity>();
+                state.InfrastructureConfigured = !state.Activities.IsNullOrEmpty();
 
+                state.RootActivities = new List<IDEActivity>();
+
+                if (state.InfrastructureConfigured)
                     state.RootActivities.Add(new IDEActivity()
                     {
-                        Icon = "cloud",
-                        Lookup = Environment.GetEnvironmentVariable("FORGE-INFRASTRUCTURE-PATH") ?? "/forge-infra",
-                        Title = "Infrastructure"
+                        Icon = "settings",
+                        Lookup = Environment.GetEnvironmentVariable("FORGE-SETTINGS-PATH") ?? "/forge-settings",
+                        Title = "Settings"
                     });
 
-                    if (state.InfrastructureConfigured)
-                        state.RootActivities.Add(new IDEActivity()
-                        {
-                            Icon = "settings",
-                            Lookup = Environment.GetEnvironmentVariable("FORGE-SETTINGS-PATH") ?? "/forge-settings",
-                            Title = "Settings"
-                        });
-                }
+                state.RootActivities.Add(new IDEActivity()
+                {
+                    Icon = "cloud",
+                    Lookup = Environment.GetEnvironmentVariable("FORGE-INFRASTRUCTURE-PATH") ?? "/forge-infra",
+                    Title = "Infrastructure"
+                });
 
                 if (state.SideBar == null)
                     state.SideBar = new IDESideBar();
