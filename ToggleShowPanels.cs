@@ -9,6 +9,7 @@ using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 using LCU.API.IDEState.Models;
 using System.Runtime.Serialization;
+using LCU.State.API.Forge.Infrastructure.Harness;
 
 namespace LCU.API.IDEState
 {
@@ -30,14 +31,10 @@ namespace LCU.API.IDEState
             [HttpTrigger(AuthorizationLevel.Function, "post", Route = null)] HttpRequest req,
             ILogger log)
 		{
-			return await req.WithState<SetActivityRequest, LCUIDEState>(log, async (details, reqData, state, stateMgr) =>
-			{
-				log.LogInformation("Toggle Show Panels function processed a request.");
-
-				state.ShowPanels = !state.ShowPanels;
-
-				return state;
-			});
+            return await req.Manage<ToggleShowPanelsRequest, LCUIDEState, LCUIDEStateHarness>(log, async (mgr, reqData) =>
+            {
+				return await mgr.ToggleShowPanels(reqData.Group, reqData.Action);
+            });
 		}
     }
 }

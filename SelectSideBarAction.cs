@@ -13,6 +13,7 @@ using System.Runtime.Serialization;
 using System.Threading.Tasks;
 using LCU.Graphs.Registry.Enterprises.IDE;
 using LCU.Graphs.Registry.Enterprises.Apps;
+using LCU.State.API.Forge.Infrastructure.Harness;
 
 namespace LCU.API.IDEState
 {
@@ -37,10 +38,10 @@ namespace LCU.API.IDEState
 			[HttpTrigger(AuthorizationLevel.Function, "post", Route = null)] HttpRequest req,
 			ILogger log)
 		{
-			return await req.WithState<SelectSideBarActionRequest, Models.LCUIDEState>(log, async (details, reqData, state, stateMgr) =>
-			{
-				return state;
-			});
+            return await req.Manage<SelectSideBarActionRequest, LCUIDEState, LCUIDEStateHarness>(log, async (mgr, reqData) =>
+            {
+                return await mgr.SelectSideBarAction(reqData.Group, reqData.Action, reqData.Section);
+            });
 		}
 	}
 }

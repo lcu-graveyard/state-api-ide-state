@@ -41,7 +41,9 @@ namespace LCU.State.API.Forge.Infrastructure.Harness
 
             state.Activities = activitiesResp.Model;
 
-            state.InfrastructureConfigured = !state.Activities.IsNullOrEmpty();
+            var appsResp = await appMgr.ListApplications(details.EnterpriseAPIKey);
+            ;
+            state.InfrastructureConfigured = appsResp.Status && !appsResp.Model.IsNullOrEmpty();
 
             state.RootActivities = new List<IDEActivity>();
 
@@ -81,6 +83,30 @@ namespace LCU.State.API.Forge.Infrastructure.Harness
             return state;
         }
 
+        public virtual async Task<LCUIDEState> RemoveEditor(string editorLookup)
+        {
+            log.LogInformation("Remove Editor function processed a request.");
+
+            state.Editors = state.Editors.Where(e => e.Lookup != editorLookup).ToList();
+
+            state.CurrentEditor = state.Editors.FirstOrDefault();
+
+            state.SideBar.CurrentAction = state.SideBar.Actions.FirstOrDefault(a => $"{a.Group}|{a.Action}" == state.CurrentEditor?.Lookup);
+
+            return state;
+        }
+
+        public virtual async Task<LCUIDEState> SelectEditor(string editorLookup)
+        {
+            log.LogInformation("Select Editor function processed a request.");
+
+            state.SideBar.CurrentAction = state.SideBar.Actions.FirstOrDefault(a => $"{a.Group}|{a.Action}" == editorLookup);
+
+            state.CurrentEditor = state.Editors.FirstOrDefault(a => a.Lookup == editorLookup);
+
+            return state;
+        }
+
         public virtual async Task<LCUIDEState> SelectSideBarAction(string group, string action, string section)
         {
             log.LogInformation("Select Side Bar Action function processed a request.");
@@ -114,6 +140,15 @@ namespace LCU.State.API.Forge.Infrastructure.Harness
             await LoadSideBar();
 
             state.SideBar.CurrentAction = state.SideBar.Actions.FirstOrDefault(a => $"{a.Group}|{a.Action}" == state.CurrentEditor?.Lookup);
+
+            return state;
+        }
+
+        public virtual async Task<LCUIDEState> ToggleShowPanels(string group, string action)
+        {
+            log.LogInformation("Toggle Show Panels function processed a request.");
+
+            state.ShowPanels = !state.ShowPanels;
 
             return state;
         }

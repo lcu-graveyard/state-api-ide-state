@@ -11,6 +11,7 @@ using System.Runtime.Serialization;
 using LCU.API.IDEState.Models;
 using System.Collections.Generic;
 using System.Linq;
+using LCU.State.API.Forge.Infrastructure.Harness;
 
 namespace LCU.API.IDEState
 {
@@ -29,16 +30,10 @@ namespace LCU.API.IDEState
             [HttpTrigger(AuthorizationLevel.Function, "post", Route = null)] HttpRequest req,
             ILogger log)
 		{
-			return await req.WithState<SelectEditorRequest, LCUIDEState>(log, async (details, reqData, state, stateMgr) =>
-			{
-				log.LogInformation("Select Editor function processed a request.");
-
-				state.SideBar.CurrentAction = state.SideBar.Actions.FirstOrDefault(a => $"{a.Group}|{a.Action}" == reqData.EditorLookup);
-
-				state.CurrentEditor = state.Editors.FirstOrDefault(a => a.Lookup == reqData.EditorLookup);
-
-				return state;
-			});
+            return await req.Manage<SelectEditorRequest, LCUIDEState, LCUIDEStateHarness>(log, async (mgr, reqData) =>
+            {
+				return await mgr.SelectEditor(reqData.EditorLookup);
+            });
 		}
     }
 }

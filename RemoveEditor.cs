@@ -1,4 +1,5 @@
 using LCU.API.IDEState.Models;
+using LCU.State.API.Forge.Infrastructure.Harness;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Azure.WebJobs;
@@ -26,18 +27,10 @@ namespace LCU.API.IDEState
 			[HttpTrigger(AuthorizationLevel.Function, "post", Route = null)] HttpRequest req,
 			ILogger log)
 		{
-			return await req.WithState<RemoveEditorRequest, LCUIDEState>(log, async (details, reqData, state, stateMgr) =>
-			{
-				log.LogInformation("Remove Editor function processed a request.");
-
-				state.Editors = state.Editors.Where(e => e.Lookup != reqData.EditorLookup).ToList();
-
-				state.CurrentEditor = state.Editors.FirstOrDefault();
-
-				state.SideBar.CurrentAction = state.SideBar.Actions.FirstOrDefault(a => $"{a.Group}|{a.Action}" == state.CurrentEditor?.Lookup);
-
-				return state;
-			});
+            return await req.Manage<RemoveEditorRequest, LCUIDEState, LCUIDEStateHarness>(log, async (mgr, reqData) =>
+            {
+				return await mgr.RemoveEditor(reqData.EditorLookup);
+            });
 		}
 	}
 }
