@@ -27,10 +27,10 @@ namespace LCU.State.API.Forge.Infrastructure.Harness
         #endregion
 
         #region Constructors
-        public LCUIDEStateHarness(HttpRequest req, ILogger log, LCUIDEState state)
-            : base(req, log, state)
+        public LCUIDEStateHarness(HttpRequest req, ILogger logger, LCUIDEState state)
+            : base(req, logger, state)
         {
-            appMgr = req.ResolveClient<ApplicationManagerClient>(log);
+            appMgr = req.ResolveClient<ApplicationManagerClient>(logger);
         }
         #endregion
 
@@ -85,7 +85,7 @@ namespace LCU.State.API.Forge.Infrastructure.Harness
 
         public virtual async Task<LCUIDEState> RemoveEditor(string editorLookup)
         {
-            log.LogInformation("Remove Editor function processed a request.");
+            logger.LogInformation("Remove Editor function processed a request.");
 
             state.Editors = state.Editors.Where(e => e.Lookup != editorLookup).ToList();
 
@@ -98,7 +98,7 @@ namespace LCU.State.API.Forge.Infrastructure.Harness
 
         public virtual async Task<LCUIDEState> SelectEditor(string editorLookup)
         {
-            log.LogInformation("Select Editor function processed a request.");
+            logger.LogInformation("Select Editor function processed a request.");
 
             state.SideBar.CurrentAction = state.SideBar.Actions.FirstOrDefault(a => $"{a.Group}|{a.Action}" == editorLookup);
 
@@ -109,7 +109,7 @@ namespace LCU.State.API.Forge.Infrastructure.Harness
 
         public virtual async Task<LCUIDEState> SelectSideBarAction(string group, string action, string section)
         {
-            log.LogInformation("Select Side Bar Action function processed a request.");
+            logger.LogInformation("Select Side Bar Action function processed a request.");
 
             state.SideBar.CurrentAction = state.SideBar.Actions.FirstOrDefault(a => a.Group == group && a.Action == action);
 
@@ -133,7 +133,7 @@ namespace LCU.State.API.Forge.Infrastructure.Harness
 
         public virtual async Task<LCUIDEState> SetActivity(string activityLookup)
         {
-            log.LogInformation("Set Activity function processed a request.");
+            logger.LogInformation("Set Activity function processed a request.");
 
             state.CurrentActivity = state.Activities.FirstOrDefault(a => a.Lookup == activityLookup);
 
@@ -146,7 +146,7 @@ namespace LCU.State.API.Forge.Infrastructure.Harness
 
         public virtual async Task<LCUIDEState> ToggleShowPanels(string group, string action)
         {
-            log.LogInformation("Toggle Show Panels function processed a request.");
+            logger.LogInformation("Toggle Show Panels function processed a request.");
 
             state.ShowPanels = !state.ShowPanels;
 
