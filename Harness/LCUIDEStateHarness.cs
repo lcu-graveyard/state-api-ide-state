@@ -42,8 +42,8 @@ namespace LCU.State.API.Forge.Infrastructure.Harness
             state.Activities = activitiesResp.Model;
 
             var appsResp = await appMgr.ListApplications(details.EnterpriseAPIKey);
-            ;
-            state.InfrastructureConfigured = appsResp.Status && !appsResp.Model.IsNullOrEmpty();
+            
+            state.InfrastructureConfigured = activitiesResp.Status && !activitiesResp.Model.IsNullOrEmpty() && appsResp.Status && !appsResp.Model.IsNullOrEmpty();
 
             state.RootActivities = new List<IDEActivity>();
 
@@ -72,9 +72,14 @@ namespace LCU.State.API.Forge.Infrastructure.Harness
 
             if (state.CurrentActivity != null)
             {
-                var actionsResp = await appMgr.LoadIDESideBarActions(details.EnterpriseAPIKey, state.CurrentActivity.Lookup);
+                var sectionsResp = await appMgr.LoadIDESideBarSections(details.EnterpriseAPIKey, state.CurrentActivity.Lookup);
 
-                state.SideBar.Actions = actionsResp.Model;
+                state.SideBar.Actions = sectionsResp.Model.SelectMany(section =>
+                {
+                    var actionsResp = appMgr.LoadIDESideBarActions(details.EnterpriseAPIKey, state.CurrentActivity.Lookup, section).Result;
+
+                    return actionsResp.Model;
+                }).ToList();
             }
             else
                 state.SideBar = new IDESideBar();
