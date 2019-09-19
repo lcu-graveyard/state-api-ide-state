@@ -5,12 +5,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
 using System.Threading.Tasks;
-using LCU.Runtime;
+using LCU.StateAPI;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Logging;
-using LCU.Presentation.Personas.Applications;
-using LCU.Presentation.Personas.DevOps;
-using LCU.Presentation.Personas.Security;
+using LCU.Personas.Client.Applications;
+using LCU.Personas.Client.DevOps;
+using LCU.Personas.Client.Security;
 using LCU.API.IDEState.Models;
 using LCU.Graphs.Registry.Enterprises.IDE;
 
