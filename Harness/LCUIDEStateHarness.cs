@@ -42,24 +42,16 @@ namespace LCU.State.API.Forge.Infrastructure.Harness
             state.Activities = activitiesResp.Model;
 
             var appsResp = await appMgr.ListApplications(details.EnterpriseAPIKey);
-            
+
             state.InfrastructureConfigured = activitiesResp.Status && !activitiesResp.Model.IsNullOrEmpty() && appsResp.Status && !appsResp.Model.IsNullOrEmpty();
 
             state.RootActivities = new List<IDEActivity>();
 
-            if (state.InfrastructureConfigured)
-                state.RootActivities.Add(new IDEActivity()
-                {
-                    Icon = "settings",
-                    Lookup = Environment.GetEnvironmentVariable("FORGE-SETTINGS-PATH") ?? "/forge-settings",
-                    Title = "Settings"
-                });
-
             state.RootActivities.Add(new IDEActivity()
             {
-                Icon = "cloud",
-                Lookup = Environment.GetEnvironmentVariable("FORGE-INFRASTRUCTURE-PATH") ?? "/forge-infra",
-                Title = "Infrastructure"
+                Icon = "settings",
+                Lookup = Environment.GetEnvironmentVariable("FORGE-SETTINGS-PATH") ?? "/forge-settings",
+                Title = "Settings"
             });
 
             return await LoadSideBar();
