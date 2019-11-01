@@ -5,12 +5,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
 using System.Threading.Tasks;
-using LCU.Runtime;
+using LCU.StateAPI;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Logging;
-using LCU.Presentation.Personas.Applications;
-using LCU.Presentation.Personas.DevOps;
-using LCU.Presentation.Personas.Security;
+using LCU.Personas.Client.Applications;
+using LCU.Personas.Client.DevOps;
+using LCU.Personas.Client.Security;
 using LCU.API.IDEState.Models;
 using LCU.Graphs.Registry.Enterprises.IDE;
 
@@ -42,24 +42,16 @@ namespace LCU.State.API.Forge.Infrastructure.Harness
             state.Activities = activitiesResp.Model;
 
             var appsResp = await appMgr.ListApplications(details.EnterpriseAPIKey);
-            
+
             state.InfrastructureConfigured = activitiesResp.Status && !activitiesResp.Model.IsNullOrEmpty() && appsResp.Status && !appsResp.Model.IsNullOrEmpty();
 
             state.RootActivities = new List<IDEActivity>();
 
-            if (state.InfrastructureConfigured)
-                state.RootActivities.Add(new IDEActivity()
-                {
-                    Icon = "settings",
-                    Lookup = Environment.GetEnvironmentVariable("FORGE-SETTINGS-PATH") ?? "/forge-settings",
-                    Title = "Settings"
-                });
-
             state.RootActivities.Add(new IDEActivity()
             {
-                Icon = "cloud",
-                Lookup = Environment.GetEnvironmentVariable("FORGE-INFRASTRUCTURE-PATH") ?? "/forge-infra",
-                Title = "Infrastructure"
+                Icon = "settings",
+                Lookup = Environment.GetEnvironmentVariable("FORGE-SETTINGS-PATH") ?? "/forge-settings",
+                Title = "Settings"
             });
 
             return await LoadSideBar();

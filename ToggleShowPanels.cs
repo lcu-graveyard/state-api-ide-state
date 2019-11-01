@@ -33,6 +33,8 @@ namespace LCU.API.IDEState
 		{
             return await req.Manage<ToggleShowPanelsRequest, LCUIDEState, LCUIDEStateHarness>(log, async (mgr, reqData) =>
             {
+				log.LogInformation($"Toggling Show Panels: {reqData.Group} {reqData.Action}");
+
 				return await mgr.ToggleShowPanels(reqData.Group, reqData.Action);
             });
 		}

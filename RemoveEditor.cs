@@ -29,6 +29,8 @@ namespace LCU.API.IDEState
 		{
             return await req.Manage<RemoveEditorRequest, LCUIDEState, LCUIDEStateHarness>(log, async (mgr, reqData) =>
             {
+				log.LogInformation($"Removing Editor {reqData.EditorLookup}");
+
 				return await mgr.RemoveEditor(reqData.EditorLookup);
             });
 		}
