@@ -40,6 +40,8 @@ namespace LCU.API.IDEState
 		{
             return await req.Manage<SelectSideBarActionRequest, LCUIDEState, LCUIDEStateHarness>(log, async (mgr, reqData) =>
             {
+				log.LogInformation($"Selecting SideBar Action: {reqData.Group} {reqData.Action} {reqData.Section}");
+
                 return await mgr.SelectSideBarAction(reqData.Group, reqData.Action, reqData.Section);
             });
 		}

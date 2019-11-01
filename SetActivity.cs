@@ -30,6 +30,8 @@ namespace LCU.API.IDEState
 		{
             return await req.Manage<SetActivityRequest, LCUIDEState, LCUIDEStateHarness>(log, async (mgr, reqData) =>
             {
+				log.LogInformation($"Set Activity {reqData.Activity}");
+
                 return await mgr.SetActivity(reqData.Activity);
             });
 		}

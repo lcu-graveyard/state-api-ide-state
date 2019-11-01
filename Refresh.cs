@@ -23,6 +23,8 @@ namespace LCU.API.IDEState
         {
             return await req.Manage<dynamic, LCUIDEState, LCUIDEStateHarness>(log, async (mgr, reqData) =>
             {
+                log.LogInformation($"Refreshing.");
+
                 return await mgr.Ensure();
             });
         }

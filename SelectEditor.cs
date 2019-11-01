@@ -32,6 +32,8 @@ namespace LCU.API.IDEState
 		{
             return await req.Manage<SelectEditorRequest, LCUIDEState, LCUIDEStateHarness>(log, async (mgr, reqData) =>
             {
+				log.LogInformation($"Selecting Editor {reqData.EditorLookup}");
+
 				return await mgr.SelectEditor(reqData.EditorLookup);
             });
 		}
